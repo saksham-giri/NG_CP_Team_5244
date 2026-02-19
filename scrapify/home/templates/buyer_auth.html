@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Buyer Login{% endblock %}
+
+{% block content %}
+
+<section class="section">
+    <div class="container auth">
+        <div class="auth__intro">
+            <span class="pill"> Buyer Portal</span>
+
+            <h1>Source scraps with speed.</h1>
+            <p>Access curated inventories, instant quotes, and compliance-ready documentation.</p>
+
+
+            <div class="auth__highlights">
+                <div>
+                    <h4>Smart Filters</h4>
+                    <p>Find material faster with AI-powered matching.</p>
+                </div>
+                <div>
+                    <h4>Verified Sellers</h4>
+                    <p>Every listing is vetted for quality and compliance.</p>
+                </div>
+            </div>
+        </div>
+        <div class="auth__panel">
+            <div class="card card--glass">
+                {% if messages %}
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+                {% endif %}
+
+                <h3> Buyer Login</h3>
+                <form class="form" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="login" />
+                    <label for="username_or_email">Username or Email</label>
+                    <input type="text" name="username_or_email" placeholder="Username or Email" required>
+
+                    <label for="password">Password</label>
+                    <input type="password" name="password" placeholder="Password" required>
+
+
+                    <button class="btn btn--primary" type="submit">Login</button>
+                </form>
+
+                <div class="divider"></div>
+
+                <h3>Buyer Registration</h3>
+                <form class="form" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="register" />
+                    <label for="username">Username</label>
+                    <input type="text" name="username" placeholder="Username" required>
+
+                    <label for="full_name">Full Name</label>
+                    <input type="text" name="full_name" placeholder="Full Name" required>
+
+                    <label for="business_name">Business Name</label>
+                    <input type="text" name="business_name" placeholder="Business Name" required>
+
+                    <label for="phone_number">Phone Number</label>
+                    <input type="text" name="phone_number" placeholder="Phone Number" required>
+
+                    <label for="address">Address</label>
+                    <input type="text" name="address" placeholder="Address">
+
+                    <label for="password">Password</label>
+                    <input type="password" name="password" placeholder="Password" required>
+
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+
+                    <label for="email">Email</label>
+                    <input type="email" name="email" placeholder="example@email.com" required>
+
+
+                    <button class="btn btn--primary" type="submit">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

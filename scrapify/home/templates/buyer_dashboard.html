@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Buyer Dashboard{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container stack">
+        <div class="card card--glass">
+            <h2>Available Listings</h2>
+            <p>Accept a listing to book a pickup.</p>
+        </div>
+
+        {% if available_listings %}
+        {% for listing in available_listings %}
+        <div class="card">
+            <h3>{{ listing.category.name }} Listing</h3>
+            <p>{{ listing.description|default:"No description provided." }}</p>
+            <ul class="list">
+                <li>Category: {{ listing.category.name }}</li>
+                <li>Seller: {{ listing.seller.business_name }}</li>
+                <li>Asking Price: ₹{{ listing.price_per_kg }}/kg</li>
+                <li>Weight: {{ listing.quantity_kg }} kg</li>
+            </ul>
+            <form method="post" class="form">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="book_listing" />
+                <input type="hidden" name="listing_id" value="{{ listing.id }}" />
+                <label for="pickup-time-{{ listing.id }}">Pickup Time</label>
+                <input id="pickup-time-{{ listing.id }}" type="datetime-local" name="scheduled_pickup_at" required />
+                <button class="btn btn--primary" type="submit">Accept & Book Pickup</button>
+            </form>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="card">
+            <p>No listings are currently available.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="section">
+    <div class="container stack">
+        <div class="card card--glass">
+            <h2>My Bookings</h2>
+            <p>Listings you accepted and are scheduled to pick up.</p>
+        </div>
+
+        {% if my_bookings %}
+        {% for booking in my_bookings %}
+        <div class="card">
+            <h3>{{ booking.listing.category.name }} Listing</h3>
+            <ul class="list">
+                <li>Category: {{ booking.listing.category.name }}</li>
+                <li>Seller: {{ booking.seller.business_name }}</li>
+                <li>Status: {{ booking.status|title }}</li>
+                <li>Scheduled Pickup: {{ booking.scheduled_pickup_at }}</li>
+                <li>Total Amount: ₹{{ booking.total_amount }}</li>
+            </ul>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="card">
+            <p>You have not booked any listings yet.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

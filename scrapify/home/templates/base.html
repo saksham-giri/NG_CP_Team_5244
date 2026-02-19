@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} ScrapiFy {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}?v=20260216-4" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="page">
+        <header class="header">
+            <div class="container header__inner">
+                <a class="logo" href="{% url 'landing' %}">
+                    <img src="{% static 'images/logo.png'%}" />
+                    <h1 class="logo__text">ScrapiFy</h1>
+                </a>
+
+                <nav class="nav">
+                    {% if user.is_authenticated and user.buyer_profile %}
+                    <a class="btn" href="{% url 'buyer_dashboard' %}">Buyer Dashboard</a>
+                    {% elif user.is_authenticated and user.seller_profile %}
+                    <a class="btn" href="{% url 'seller_dashboard' %}">Seller Dashboard</a>
+                    {% else %}
+                    <a class="btn" href="{% url 'buyer_auth' %}">Buy</a>
+                    <a class="btn" href="{% url 'seller_auth' %}">Sell</a>
+                    {% endif %}
+                    <a class="btn" href="{% url 'about' %}"> About Us</a>
+                    {% if user.is_authenticated %}
+                    <a class="btn btn--ghost" href="{% url 'logout' %}">Logout</a>
+                    {% endif %}
+
+                </nav>
+            </div>
+        </header>
+
+        <main class="content">
+            {% if messages %}
+            <section class="section">
+                <div class="container stack">
+                    {% for message in messages %}
+                    <div class="card card--glass">
+                        <p>{{ message }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <footer class="footer">
+            <div class="container footer__inner">
+                <span class="foot_text"> &copy; ScrapiFy. For a cleaner tomorrow.</span>
+            </div>
+        </footer>
+    </div>
+
+</body>
+
+</html>

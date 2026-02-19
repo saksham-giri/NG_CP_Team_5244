@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{% if mode == "edit" %}Edit Listing{% else %}Create Listing{% endif %}{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container split">
+        <div class="card card--glass">
+            <h2>{% if mode == "edit" %}Edit Listing{% else %}Create New Listing{% endif %}</h2>
+            <p>Provide accurate details to improve buyer conversion.</p>
+        </div>
+        <div class="card">
+            <form class="form" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn--primary">
+                    {% if mode == "edit" %}Save Changes{% else %}Create Listing{% endif %}
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

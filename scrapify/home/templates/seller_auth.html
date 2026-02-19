@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %} Seller Access {% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container auth">
+        <div class="auth__intro">
+            <span class="pill">Seller Portal</span>
+
+            <h2>Sell scrap with speed.</h2>
+            <p>List inventory, schedule pickups, and get paid quickly.</p>
+            <div class="auth__highlights">
+                <div>
+                    <h4>Instant Pricing</h4>
+                    <p>Get real-time pricing insights for your products based on market trends and competitor analysis.
+                    </p>
+
+                </div>
+                <div>
+                    <h4>Easy Management</h4>
+                    <p>Effortlessly manage your inventory, orders, and customer interactions from a single dashboard.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="auth__panel">
+            <div class="card card--glass">
+                {% if messages %}
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+                {% endif %}
+
+                <h3>Seller Login</h3>
+                <form class="form" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="login" />
+                    <label>Username or Email</label>
+                    <input type="text" name="username_or_email" placeholder="Enter username or email" required />
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Enter your password" required />
+                    <button class="btn btn--primary" type="submit">Login</button>
+                </form>
+                <div class="divider"></div>
+                <h4>Create Seller Account</h4>
+                <form class="form" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="register" />
+                    <label>Username</label>
+                    <input type="text" name="username" placeholder="Enter a username" required />
+                    <label>Full Name</label>
+                    <input type="text" name="full_name" placeholder="Enter your full name" required />
+                    <label>Business Name</label>
+                    <input type="text" name="business_name" placeholder="Enter your business name" required />
+                    <label>Phone Number</label>
+                    <input type="text" name="phone_number" placeholder="Enter your phone number" required />
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="Enter your email" required />
+                    <label>Pickup Address</label>
+                    <input type="text" name="pickup_address" placeholder="Enter pickup address" />
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Create a password" required />
+                    <label>Confirm Password</label>
+                    <input type="password" name="confirm_password" placeholder="Confirm password" required />
+                    <button class="btn btn--accent" type="submit">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

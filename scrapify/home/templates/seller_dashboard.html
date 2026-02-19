@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Seller Dashboard{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container stack">
+        <div class="card card--glass">
+            <h2>Seller Dashboard</h2>
+            <div class="hero__stats">
+                <div>
+                    <h3>{{ total_listings_count }}</h3>
+                    <p>Total Listings</p>
+                </div>
+                <div>
+                    <h3>{{ available_listings_count }}</h3>
+                    <p>Available Listings</p>
+                </div>
+                <div>
+                    <h3>{{ bookings_count }}</h3>
+                    <p>Bookings</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container stack">
+        <div class="card">
+            <h3>Add Listing</h3>
+            <form class="form" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="create_listing" />
+                {{ listing_form.as_p }}
+                <button class="btn btn--primary" type="submit">Add Listing</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h3>Your Listings</h3>
+            {% if listings %}
+            <ul class="list">
+                {% for listing in listings %}
+                <li>
+                    {{ listing.category.name }} Listing •
+                    {{ listing.description|default:"No description" }} •
+                    ₹{{ listing.price_per_kg }}/kg • {{ listing.quantity_kg }} kg •
+                    {{ listing.status|title }}
+                    <a class="btn btn--ghost" href="{% url 'seller_listing_edit' listing.id %}">Edit</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No listings yet.</p>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h3>Latest Bookings</h3>
+            {% if bookings %}
+            <ul class="list">
+                {% for booking in bookings %}
+                <li>
+                    {{ booking.listing.category.name }} Listing • {{ booking.buyer.business_name }} •
+                    {{ booking.status|title }} • {{ booking.scheduled_pickup_at }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No bookings yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
